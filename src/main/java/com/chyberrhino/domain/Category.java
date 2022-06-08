@@ -17,9 +17,9 @@ public class Category implements Serializable{
 	private Integer id;
 	private String name;
 	
-	public void Categories() {
+	public Category() {
 	}
-
+	
 	public Category(Integer id, String name) {
 		super();
 		this.id = id;
@@ -58,5 +58,5 @@ public class Category implements Serializable{
 		Category other = (Category) obj;
 		return Objects.equals(id, other.id);
 	}
-
+	
 }
