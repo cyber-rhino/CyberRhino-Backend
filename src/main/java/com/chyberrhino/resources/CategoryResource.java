@@ -1,29 +1,27 @@
 package com.chyberrhino.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chyberrhino.domain.Category;
+import com.chyberrhino.services.CategoryService;
 
 @RestController
 @RequestMapping(value= "/categories")
+
 public class CategoryResource {
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public List<Category> lista() {
-		Category cat = new Category(1,"Hardware");
-		Category cat2 = new Category (2,"Design");
-		Category cat3 = new Category(3,"Software");
+	@Autowired
+	private CategoryService service;
+	@RequestMapping(value = "/{id}" , method = RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Integer id) {
+		Category obj = service.find(id);
 		
-		List<Category> Lista = new ArrayList<>();
-		Lista.add(cat3);
-		Lista.add(cat2);
-		Lista.add(cat);
+		return ResponseEntity.ok().body(obj);
 		
-		return Lista;
 	}
 }
