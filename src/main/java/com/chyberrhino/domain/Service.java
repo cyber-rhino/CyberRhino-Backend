@@ -9,31 +9,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-public class Category implements Serializable{
+public class Service implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private Double price;
 	
-	@JsonManagedReference
-	@ManyToMany(mappedBy = "categorys")
+	@JsonBackReference
+	@ManyToMany
+	@JoinTable(
+			name = "SERVICE_CATEGORY",
+			joinColumns = @JoinColumn(name = "service_id"),
+			inverseJoinColumns = @JoinColumn (name = "category_id")
+	)
 	
-	private List<Service> services = new ArrayList<>();
+	private List <Category> categorys = new ArrayList<>();
 	
-	public Category() {
+	public Service() {
+		
 	}
-	
-	public Category(Integer id, String name) {
+
+	public Service(Integer id, String name, Double price) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.price = price;
 	}
 
 	public Integer getId() {
@@ -51,13 +61,21 @@ public class Category implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public List<Service> getServices() {
-		return services;
+
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setServices(List<Service> services) {
-		this.services = services;
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public List<Category> getCategorys() {
+		return categorys;
+	}
+
+	public void setCategorys(List<Category> categorys) {
+		this.categorys = categorys;
 	}
 
 	@Override
@@ -73,7 +91,7 @@ public class Category implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Service other = (Service) obj;
 		return Objects.equals(id, other.id);
 	}
 	
