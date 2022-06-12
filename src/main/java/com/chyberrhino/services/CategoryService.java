@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.chyberrhino.dao.CategoryDAO;
 import com.chyberrhino.domain.Category;
+import com.chyberrhino.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoryService {
@@ -15,7 +16,8 @@ public class CategoryService {
 	private CategoryDAO repo;
 	public Category find(Integer id) {
 		Optional<Category> obj = repo.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+				"Object not found ID: " + id + ", Type: " + Category.class.getName()));
 	}
 	
 }
