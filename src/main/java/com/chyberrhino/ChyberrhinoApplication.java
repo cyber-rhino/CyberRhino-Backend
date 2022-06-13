@@ -8,9 +8,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.chyberrhino.dao.CategoryDAO;
+import com.chyberrhino.dao.CityDAO;
 import com.chyberrhino.dao.ServiceDAO;
+import com.chyberrhino.dao.StateDAO;
 import com.chyberrhino.domain.Category;
+import com.chyberrhino.domain.City;
 import com.chyberrhino.domain.Service;
+import com.chyberrhino.domain.State;
 
 @SpringBootApplication
 public class ChyberrhinoApplication implements CommandLineRunner{
@@ -19,6 +23,10 @@ public class ChyberrhinoApplication implements CommandLineRunner{
 	private CategoryDAO categoryDAO;
 	@Autowired
 	private ServiceDAO serviceDAO;
+	@Autowired
+	private StateDAO stateDAO;
+	@Autowired
+	private CityDAO cityDAO;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ChyberrhinoApplication.class, args);
@@ -44,7 +52,17 @@ public class ChyberrhinoApplication implements CommandLineRunner{
 		s3.getCategorys().addAll(Arrays.asList(cat1));
 		
 		categoryDAO.saveAll(Arrays.asList(cat1, cat2, cat3));
-		serviceDAO.saveAll(Arrays.asList(s1,s2,s3));
+		serviceDAO.saveAll(Arrays.asList(s1 ,s2 ,s3));
+		
+		State es1 = new State(null, "CE");
+		State es2 = new State(null, "SP");
+		
+		City c1 = new City(null, "Acopiara", es1);
+		City c2 = new City(null, "São Paulo", es2);
+		City c3 = new City(null, "Flamengo", es1);
+		
+		stateDAO.saveAll(Arrays.asList(es1,es2));
+		cityDAO.saveAll(Arrays.asList(c1, c2, c3));
 		
 	}
 
