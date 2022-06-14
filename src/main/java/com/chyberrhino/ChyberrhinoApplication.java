@@ -7,14 +7,19 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.chyberrhino.dao.AddressDAO;
 import com.chyberrhino.dao.CategoryDAO;
 import com.chyberrhino.dao.CityDAO;
+import com.chyberrhino.dao.ClientDAO;
 import com.chyberrhino.dao.ServiceDAO;
 import com.chyberrhino.dao.StateDAO;
+import com.chyberrhino.domain.Address;
 import com.chyberrhino.domain.Category;
 import com.chyberrhino.domain.City;
+import com.chyberrhino.domain.Client;
 import com.chyberrhino.domain.Service;
 import com.chyberrhino.domain.State;
+import com.chyberrhino.domain.enums.TypeClient;
 
 @SpringBootApplication
 public class ChyberrhinoApplication implements CommandLineRunner{
@@ -27,6 +32,10 @@ public class ChyberrhinoApplication implements CommandLineRunner{
 	private StateDAO stateDAO;
 	@Autowired
 	private CityDAO cityDAO;
+	@Autowired
+	private ClientDAO clientDAO;
+	@Autowired
+	private AddressDAO addressDAO;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ChyberrhinoApplication.class, args);
@@ -57,13 +66,27 @@ public class ChyberrhinoApplication implements CommandLineRunner{
 		State es1 = new State(null, "CE");
 		State es2 = new State(null, "SP");
 		
-		City c1 = new City(null, "Acopiara", es1);
-		City c2 = new City(null, "São Paulo", es2);
-		City c3 = new City(null, "Flamengo", es1);
+		City ct1 = new City(null, "Acopiara", es1);
+		City ct2 = new City(null, "São Paulo", es2);
+		City ct3 = new City(null, "Flamengo", es1);
 		
 		stateDAO.saveAll(Arrays.asList(es1,es2));
-		cityDAO.saveAll(Arrays.asList(c1, c2, c3));
+		cityDAO.saveAll(Arrays.asList(ct1, ct2, ct3));
 		
+		Client cli = new Client(null, "Jadson", "jadson@gmail.com", "31293872183", TypeClient.PHYSICALPERSON);
+		Client cli1 = new Client(null, "Kilmer", "kilmer@gmail.com", "31293772183", TypeClient.PHYSICALPERSON);
+		
+		cli.getPhone().addAll(Arrays.asList("3283198372", "29381321831"));
+		cli1.getPhone().addAll(Arrays.asList("9983987212"));
+		
+		Address ad = new Address(null, "Avenida", "476", "apto 289", "Centro", "63560000", cli, ct1);
+		Address ad1 = new Address(null, "Fransisco pereira de souza", "900", "apto 89", "Vila esperança", "63560000", cli1, ct1);
+		
+		cli.getAdresses().addAll(Arrays.asList(ad));
+		cli.getAdresses().addAll(Arrays.asList(ad1));
+		
+		clientDAO.saveAll(Arrays.asList(cli, cli1));
+		addressDAO.saveAll(Arrays.asList(ad, ad1));
 	}
 
 }
