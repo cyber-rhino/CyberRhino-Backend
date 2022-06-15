@@ -1,7 +1,5 @@
 package com.chyberrhino.domain.enums;
 
-import java.util.Iterator;
-
 public enum TypeClient {
 	PHYSICALPERSON(1, "Physical Person"), LEGALPERSON(2, "Legal Person");
 
