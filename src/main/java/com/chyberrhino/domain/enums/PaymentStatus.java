@@ -1,13 +1,15 @@
 package com.chyberrhino.domain.enums;
 
-public enum TypeClient {
-	PHYSICALPERSON(1, "Physical Person"), 
-	LEGALPERSON(2, "Legal Person");
+public enum PaymentStatus {
+
+	REQUESTED(1, "Requested"), 
+	PAID(2, "Paid"), 
+	CANCELED(3, "Canceled");
 
 	private int cod;
 	private String description;
 
-	private TypeClient(int cod, String description) {
+	private PaymentStatus(int cod, String description) {
 		this.cod = cod;
 		this.description = description;
 	}
@@ -20,19 +22,19 @@ public enum TypeClient {
 		return description;
 	}
 
-	public static TypeClient toEnum(Integer cod) {
+	public static PaymentStatus toEnum(Integer cod) {
 		if (cod == null) {
 			return null;
 		}
 
-		for (TypeClient x : TypeClient.values()) {
+		for (PaymentStatus x : PaymentStatus.values()) {
 			if (cod.equals(x.getCod())) {
 				return x;
 			}
 		}
-		
-		throw new IllegalArgumentException("Invalid ID: "+cod);
-		
+
+		throw new IllegalArgumentException("Invalid ID: " + cod);
+
 	}
 
 }
