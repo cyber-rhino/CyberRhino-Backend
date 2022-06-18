@@ -2,8 +2,10 @@ package com.chyberrhino.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -28,12 +31,15 @@ public class Service implements Serializable{
 	@JsonBackReference
 	@ManyToMany
 	@JoinTable(
-			name = "SERVICE_CATEGORY",
-			joinColumns = @JoinColumn(name = "service_id"),
-			inverseJoinColumns = @JoinColumn (name = "category_id")
+		name = "SERVICE_CATEGORY",
+		joinColumns = @JoinColumn(name = "service_id"),
+		inverseJoinColumns = @JoinColumn (name = "category_id")
 	)
 	
 	private List <Category> categorys = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "id.service")
+	private Set<RequestedItem> items = new HashSet<>();
 	
 	public Service() {
 		
@@ -45,7 +51,15 @@ public class Service implements Serializable{
 		this.name = name;
 		this.price = price;
 	}
-
+	
+	public List<Request> getRequests(){
+		List<Request> list = new ArrayList<>();
+		for(RequestedItem x : items) {
+			list.add(x.getRequest());
+		}
+		return list;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -76,6 +90,14 @@ public class Service implements Serializable{
 
 	public void setCategorys(List<Category> categorys) {
 		this.categorys = categorys;
+	}
+
+	public Set<RequestedItem> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<RequestedItem> items) {
+		this.items = items;
 	}
 
 	@Override

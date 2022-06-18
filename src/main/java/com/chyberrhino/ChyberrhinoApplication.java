@@ -14,6 +14,7 @@ import com.chyberrhino.dao.CityDAO;
 import com.chyberrhino.dao.ClientDAO;
 import com.chyberrhino.dao.PaymentDAO;
 import com.chyberrhino.dao.RequestDAO;
+import com.chyberrhino.dao.RequestedItemDAO;
 import com.chyberrhino.dao.ServiceDAO;
 import com.chyberrhino.dao.StateDAO;
 import com.chyberrhino.domain.Address;
@@ -23,6 +24,7 @@ import com.chyberrhino.domain.City;
 import com.chyberrhino.domain.Client;
 import com.chyberrhino.domain.Payment;
 import com.chyberrhino.domain.Request;
+import com.chyberrhino.domain.RequestedItem;
 import com.chyberrhino.domain.Service;
 import com.chyberrhino.domain.SlipPayment;
 import com.chyberrhino.domain.State;
@@ -48,6 +50,9 @@ public class ChyberrhinoApplication implements CommandLineRunner{
 	private PaymentDAO paymentDAO;
 	@Autowired
 	private RequestDAO requestDAO;
+	@Autowired
+	private RequestedItemDAO requestedItemDAO;
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ChyberrhinoApplication.class, args);
@@ -115,6 +120,17 @@ public class ChyberrhinoApplication implements CommandLineRunner{
 		
 		requestDAO.saveAll(Arrays.asList(re1, re2));
 		paymentDAO.saveAll(Arrays.asList(pay1, pay2));
+		
+		RequestedItem ri1 = new RequestedItem(200.00, re1, s1);
+		RequestedItem ri2 = new RequestedItem(100.00, re2, s3);
+		
+		re1.getItems().addAll(Arrays.asList(ri1));
+		re2.getItems().addAll(Arrays.asList(ri2));
+		
+		s1.getItems().addAll(Arrays.asList(ri1));
+		s3.getItems().addAll(Arrays.asList(ri2));
+		
+		requestedItemDAO.saveAll(Arrays.asList(ri1, ri2));
 		
 	}
 
