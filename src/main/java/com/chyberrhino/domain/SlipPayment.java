@@ -5,12 +5,16 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.chyberrhino.domain.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class SlipPayment extends Payment{
 	private static final long serialVersionUID = 1L;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dueDate;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date payDate;
 	
 	public SlipPayment() {
